@@ -1,4 +1,5 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder, EmbedBuilder, MessageFlags } = require('discord.js');
+const settings = require('../../config/settings');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -6,6 +7,13 @@ module.exports = {
         .setDescription('replies with pong!'),
 
     async execute(interaction) {
-        await interaction.reply('pong! my latency is ' + interaction.client.ws.ping + 'ms');
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+
+        const pingEmbed = new EmbedBuilder()
+            .setTitle('Pong!')
+            .setDescription(`\`\`\`My latency is ${interaction.client.ws.ping}ms\`\`\``)
+            .setColor(settings.embedColor);
+
+        await interaction.editReply({ embeds: [pingEmbed] });
     }
 }
