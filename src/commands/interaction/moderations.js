@@ -109,7 +109,7 @@ module.exports = {
            // const durationMs = parseInt(duration) * 60 * 1000;
 
             
-          //  try {
+          //  try { i lowk dont know how to timeout gng
           //      await targetUser.timeout(durationMs, reason);
           //      await logChannel.send({ embeds: [logChannelEmbed] }).then(async () => {
           //          try {

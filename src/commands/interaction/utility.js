@@ -9,6 +9,16 @@ module.exports = {
         .setDescription('Utility commands for the bot')
         .addSubcommandGroup((group) =>
             group
+                .setName('info')
+                .setDescription('info subcommands')
+                .addSubcommand((subcommand) =>
+                    subcommand
+                        .setName('source')
+                        .setDescription('View my source code on GitHub.')
+                )
+        )
+        .addSubcommandGroup((group) =>
+            group
                 .setName('server')
                 .setDescription('Server related utility commands')
                 .addSubcommand((subcommand) =>
@@ -54,16 +64,16 @@ module.exports = {
                         )
                 ),
 
-
-
-
-
         async execute(interaction, client) {
             const subcommand = interaction.options.getSubcommand();
             const targetUser = interaction.options.getUser('target');
             const avatarType = interaction.options.getString('server');
 
-            if (subcommand === 'avatar') {
+            if (subcommand === 'source') {
+                return interaction.reply({ content: 'You can find my source code here: <https://github.com/4y6f/gvsBot>', flags: MessageFlags.Ephemeral });
+            }
+
+            else if (subcommand === 'avatar') {
                 const user = await interaction.guild.members.fetch(targetUser.id).catch(() => null);
 
                 if (avatarType === 'server') {

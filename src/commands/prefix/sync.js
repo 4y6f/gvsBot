@@ -12,20 +12,17 @@ module.exports = {
         }
 
         try {
-            // Step 1: Wipe all previous application commands
             await client.application.commands.set([]);
 
-            // Step 2: Prepare current command data for sync
             const commands = client.commands.interaction;
             const data = commands.map(cmd => cmd.data.toJSON());
 
-            // Step 3: Resync the current commands
             await client.application.commands.set(data);
 
-            return message.reply('Application commands successfully synced.');
+            return message.reply('it worked');
         } catch (err) {
             console.error('Sync failed:', err);
-            return message.reply('Sync failed. Please check the console for errors.');
+            return message.reply('sync failed!!!11!');
         }
     }
 };
