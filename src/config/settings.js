@@ -4,6 +4,7 @@ const settings = {
     token: process.env.TOKEN,
     clientId: process.env.CLIENT_ID,
     guildId: process.env.GUILD_ID,
+    prefix: 'g!',
     embedColor: '#1c1c1c',
     bannerImages: {
         sessions: 'https://placehold.co/900x300.png',

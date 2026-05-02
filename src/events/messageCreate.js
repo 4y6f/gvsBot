@@ -1,10 +1,12 @@
+const settings = require('../config/settings');
+
 module.exports = {
     name: 'messageCreate',
 
     async execute(message, client) {
         if (message.author.bot) return;
 
-        const prefix = '-';
+        const prefix = settings.prefix;
 
         if (!message.content.startsWith(prefix)) return;
 
