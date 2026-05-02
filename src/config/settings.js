@@ -26,8 +26,8 @@ const settings = {
     
 };
 
-if (!settings.token || !settings.clientId) {
-    throw new Error('You need to set your discord bot token and your client id.\nCreate an .env file with the folliwing:\n\nTOKEN=your_bot_token\nCLIENT_ID=your_client_id');
+if (!settings.token || !settings.clientId || !settings.guildId) {
+    throw new Error('Make sure all of the following settings are set, they are required to run!\n- Bot Token\n- Client ID\n- Guild ID');
 }
 
 module.exports = settings;
