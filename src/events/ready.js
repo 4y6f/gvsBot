@@ -9,7 +9,7 @@ module.exports = {
         client.user.setPresence({
             activities: [
                 {
-                    name: 'duo make stuff work',
+                    name: 'the server grow',
                     type: ActivityType.Watching,
                 }
             ],
