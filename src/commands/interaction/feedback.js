@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, MessageFlags, ButtonBuilder, ModalBuilder, ActionRowBuilder } = require('discord.js');
 const { hasPermission, permissionEmbed } = require('../../utils/permissionChecker');
+const { filter } = require('curse-filter')
 const settings = require('../../config/settings');
 
 module.exports = {
@@ -60,6 +61,9 @@ module.exports = {
                 ? 'Anonymous'
                 : interaction.user.toString()
 
+            const filteredFeedback = await filter(feedbackResponse, { placeholder: 'X'})
+            const filteredFeedbackTxt = String(filteredFeedback)
+
             const feedbackEmbed = new EmbedBuilder()
             .setTitle('Server Feedback')
             .setDescription("New feedback for the server has been submitted.")
@@ -76,10 +80,11 @@ module.exports = {
                 },
                 {
                     name: 'Feedback',
-                    value: feedbackResponse,
+                    value: filteredFeedbackTxt,
                     inline: false
                 }
-            );
+            )
+            .setImage(settings.footerImages.general)
 
             await feedbackChannel.send({ embeds: [feedbackEmbed] })
 

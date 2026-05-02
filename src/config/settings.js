@@ -21,6 +21,7 @@ const settings = {
     },
     channels: {
         moderationLogs: '1477113325467861123',
+        feedback: '1500181105029156956',
     }
     
 };

@@ -6,7 +6,7 @@ const { execute } = require('./moderations');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('utility')
-        .setDescription('Utility commands for the bot')
+        .setDescription('Utility commands')
         .addSubcommandGroup((group) =>
             group
                 .setName('info')
