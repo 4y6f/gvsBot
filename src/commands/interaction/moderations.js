@@ -1,6 +1,8 @@
 const settings = require('../../config/settings');
 const { SlashCommandBuilder, EmbedBuilder, MessageFlags, PermissionsBitField } = require('discord.js');
 const { hasPermission, permissionReply } = require('../../utils/permissionChecker');
+const moderationCase = require('../../models/moderationCase');
+const generateCaseID = require('../../utils/generateModerationCaseID');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -85,6 +87,14 @@ module.exports = {
                 .setFooter({ text: `Moderator: ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() });
 
             log = await logChannel.send({ embeds: [logChannelEmbed] });
+            databaseLog = await moderationCase.create({
+                caseId: generateCaseID(),
+                guildId: interaction.guild.id,
+                userId: targetUser.id,
+                moderatorId: interaction.user.id,
+                type: 'warning',
+                reason: reason,
+            });
 
             const warningEmbed = new EmbedBuilder()
                 .setTitle('Moderation Warning')
@@ -133,7 +143,15 @@ module.exports = {
 
             try {
                 await interaction.guild.members.kick(targetUser.id, reason);
-                await logChannel.send({ embeds: [logChannelEmbed] }).then(async () => {
+                await logChannel.send({ embeds: [logChannelEmbed] })
+                await moderationCase.create({
+                    caseId: generateCaseID(),
+                    guildId: interaction.guild.id,
+                    userId: targetUser.id,
+                    moderatorId: interaction.user.id,
+                    type: 'kick',
+                    reason: reason,
+                }).then(async () => {
 
                     try {
                         await targetUser.send({ embeds: [kickEmbed] });
@@ -151,7 +169,14 @@ module.exports = {
         else if (subcommand === 'ban') {
             const logChannelEmbed = new EmbedBuilder().setTitle('User Banned').setDescription(`${targetUser.tag} has been banned for the following reason:\n\n${reason}`).setColor(settings.embedColor).setImage(settings.footerImages.general).setFooter({ text: `Moderator: ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() });
             const banEmbed = new EmbedBuilder().setTitle('Moderation Ban').setDescription(`You have been banned from ${interaction.guild.name} for the following reason:\n\n${reason}`).setColor(settings.embedColor).setImage(settings.footerImages.general).setFooter({ text: `Moderator: ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() });
-
+            databaseLog = await moderationCase.create({
+                caseId: generateCaseID(),
+                guildId: interaction.guild.id,
+                userId: targetUser.id,
+                moderatorId: interaction.user.id,
+                type: 'ban',
+                reason: reason,
+            })
 
             try {
                 await interaction.guild.members.ban(targetUser.id, { reason });

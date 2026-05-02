@@ -1,11 +1,13 @@
 const settings = require('../config/settings');
 const { ActivityType } = require('discord.js');
+const connectToMongoDB = require('../database/connect');
 
 module.exports = {
     name: 'clientReady',
     once: true,
     async execute(client) {
         console.log(`logging in as ${client.user.tag}`);
+        await connectToMongoDB();
         client.user.setPresence({
             activities: [
                 {

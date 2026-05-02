@@ -6,6 +6,9 @@ const settings = {
     guildId: process.env.GUILD_ID,
     prefix: 'g!',
     embedColor: '#1c1c1c',
+    database: {
+        mongodburi: process.env.MONGO_URI,
+    },
     bannerImages: {
         sessions: 'https://placehold.co/900x300.png',
         general: 'https://placehold.co/900x300.png',
