@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, EmbedBuilder, MessageFlags, ButtonBuilder, ModalBuilder, ActionRowBuilder } = require('discord.js');
-const { hasPermission, permissionEmbed } = require('../../utils/permissionChecker');
 const { filter } = require('curse-filter')
 const settings = require('../../config/settings');
 

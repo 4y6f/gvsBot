@@ -19,6 +19,7 @@ client.commands = {
 };
 
 client.buttons = new Collection();
+client.modals = new Collection();
 
 function loadFiles(dir) {
     const absoluteDir = path.join(__dirname, dir);
@@ -67,6 +68,14 @@ for (const file of loadFiles('buttons')) {
     if (!button?.name) continue;
 
     client.buttons.set(button.name, button);
+}
+
+for (const file of loadFiles('modals')) {
+    const modal = require(file);
+
+    if (!modal?.name) continue;
+
+    client.modals.set(modal.name, modal);
 }
 
 client.login(token);

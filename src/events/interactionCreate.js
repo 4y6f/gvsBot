@@ -27,7 +27,7 @@ module.exports = {
                 }
             }
         }
-        
+
         else if (interaction.isButton()) {
 
             const [name] = interaction.customId.split(':');
@@ -42,6 +42,29 @@ module.exports = {
 
                 const reply = {
                     content: 'there was an error while executing this button!',
+                    flags: MessageFlags.Ephemeral,
+                };
+
+                if (interaction.replied || interaction.deferred) {
+                    await interaction.followUp(reply);
+                } else {
+                    await interaction.reply(reply);
+                }
+            }
+        }
+        else if (interaction.isModalSubmit()) {
+            const [name] = interaction.customId.split(':');
+            const modal = client.modals.get(name);
+
+            if (!modal) return console.log('modal logic not found');
+
+            try {
+                await modal.execute(interaction, client);
+            } catch (err) {
+                console.log('there was an error with modal', err);
+
+                const reply = {
+                    content: 'there was an error with this modal',
                     flags: MessageFlags.Ephemeral,
                 };
 
