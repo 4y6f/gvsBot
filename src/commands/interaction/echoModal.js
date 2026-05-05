@@ -27,6 +27,6 @@ module.exports = {
 
         modal.addComponents(actionRow);
         
-        await interaction.showModal(modal)
+        await interaction.showModal(modal);
     }
 }

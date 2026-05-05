@@ -6,6 +6,10 @@ const settings = {
     guildId: process.env.GUILD_ID,
     prefix: 'g!',
     embedColor: '#1c1c1c',
+    erlcApi: {
+        apiBaseLink: 'https://api.policeroleplay.community/v1',
+        apikey: process.env.erlcapikey,
+    },
     database: {
         mongodburi: process.env.MONGO_URI,
     },
