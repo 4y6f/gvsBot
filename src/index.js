@@ -18,6 +18,8 @@ client.commands = {
     interaction: new Collection(),
 };
 
+client.buttons = new Collection();
+
 function loadFiles(dir) {
     const absoluteDir = path.join(__dirname, dir);
     const results = [];
@@ -57,6 +59,14 @@ for (const file of loadFiles('events')) {
     } else {
         client.on(event.name, (...args) => event.execute(...args, client));
     }
+}
+
+for (const file of loadFiles('buttons')) {
+    const button = require(file);
+
+    if (!button?.name) continue;
+
+    client.buttons.set(button.name, button);
 }
 
 client.login(token);
