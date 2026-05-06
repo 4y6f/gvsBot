@@ -18,9 +18,24 @@ let discordClient;
 })();
 
 process.on('SIGINT', async () => {
-    discordClient = client;
+    const discordClient = client;
 
-    console.log('[SIGINT]   attempting graceful disconnect.....')
+    console.log('[SIGINT]   attempting graceful disconnect.....');
+    await sleep(300);
+    await mongo.disconnect();
+    try {
+        await discordClient.destroy();
+        console.log('[LOG]   destroyed client');
+    } catch (err) {
+        console.error('[ERROR]   could not destroy client');
+    }
+    await process.exit();
+})
+
+process.on('SIGTERM', async () => {
+    const discordClient = client;
+
+    console.log('[SIGTERM]   attempting graceful disconnect.....');
     await sleep(300);
     await mongo.disconnect();
     try {
