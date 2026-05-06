@@ -79,3 +79,5 @@ for (const file of loadFiles('modals')) {
 }
 
 client.login(token);
+
+module.exports = { client };

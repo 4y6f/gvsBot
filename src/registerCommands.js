@@ -10,14 +10,14 @@ const { token, clientId, guildId } = require('./config/settings');
 module.exports = async function deployCommands () {
     try {
         if (!clientId || !guildId) {
-            throw new Error('Missing clientId or guildId in config/settings.js');
+            throw new Error('[ERROR]   Missing clientId or guildId in config/settings.js');
         }
 
         const commands = [];
         const commandsPath = path.join(__dirname, 'commands/interaction');
 
         if (!fs.existsSync(commandsPath)) {
-            throw new Error('Commands directory not found');
+            throw new Error('[ERROR]   Commands directory not found');
         }
 
         const commandFiles = fs
@@ -25,7 +25,7 @@ module.exports = async function deployCommands () {
             .filter(file => file.endsWith('.js'));
 
         if (commandFiles.length === 0) {
-            console.warn('No command files found in commands directory');
+            console.warn('[WARN]   No command files found in commands directory');
         }
 
         for (const file of commandFiles) {
@@ -33,7 +33,7 @@ module.exports = async function deployCommands () {
             const command = require(filePath);
 
             if (!command.data) {
-                console.warn(`skipping command ${file} (no data found!)`);
+                console.warn(`[WARN]   skipping command ${file} (no data found!)`);
                 continue;
             }
 
@@ -42,14 +42,14 @@ module.exports = async function deployCommands () {
 
         const rest = new REST({ version: '10' }).setToken(token);
 
-        console.log(`pushing ${commands.length} commands...`);
+        console.log(`[LOG]   pushing ${commands.length} commands...`);
 
         await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands });
 
-        console.log(`successfully pushed ${commands.length} commands!`);
+        console.log(`[LOG]   successfully pushed ${commands.length} commands!`);
             
     } catch (error) {
-        console.error('failed to deploy commands:', error);
+        console.error('[ERROR]   failed to deploy commands:', error);
         throw error;
     }
 };

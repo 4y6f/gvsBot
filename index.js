@@ -1,12 +1,33 @@
+const { sleep } = require('./src/utils/sleep.js');
+const mongo = require('./src/database/connect.js');
+const { client } = require('./src/index.js');
+
+let discordClient;
+
 (async () => {
     try {
-        console.log('starting.....');
+        console.log('[EVENT]   starting.....');
 
         const deployCommands = require('./src/registerCommands');
         await deployCommands();
 
         require('./src/index.js');
     } catch (err) {
-        console.error('error while starting:', err);
+        console.error('[ERROR]   error while starting:', err);
     }
 })();
+
+process.on('SIGINT', async () => {
+    discordClient = client;
+
+    console.log('[SIGINT]   attempting graceful disconnect.....')
+    await sleep(300);
+    await mongo.disconnect();
+    try {
+        await discordClient.destroy();
+        console.log('[LOG]   destroyed client');
+    } catch (err) {
+        console.error('[ERROR]   could not destroy client');
+    }
+    await process.exit();
+})

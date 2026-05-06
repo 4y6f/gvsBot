@@ -7,7 +7,7 @@ const settings = {
     prefix: 'g!',
     embedColor: '#1c1c1c',
     erlcApi: {
-        apiBaseLink: 'https://api.policeroleplay.community/v1',
+        apiBaseLink: 'https://api.erlc.gg/v1',
         apikey: process.env.erlcapikey,
     },
     database: {
