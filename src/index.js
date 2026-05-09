@@ -70,7 +70,6 @@ for (const file of loadFiles('buttons')) {
     if (!button?.name) continue;
 
     client.buttons.set(button.name, button);
-    console.log('INDEX: loading ' + button.name + '.')
 }
 
 for (const file of loadFiles('modals')) {
