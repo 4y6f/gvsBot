@@ -7,6 +7,10 @@ module.exports = {
     async execute(interaction, client) {
         const commandInput = interaction.fields.getTextInputValue('commandInput');
 
+        if (!commandInput.includes(':')) {
+            return interaction.reply({ content: 'You need to include a command.', flags: MessageFlags.Ephemeral })
+        }
+
         const responseEmbed = new EmbedBuilder()
             .setColor(settings.embedColor)
 

@@ -1,5 +1,5 @@
 const { createTranscript, ExportReturnType } = require('discord-transcript-v2');
-const { ContainerBuilder, TextDisplayBuilder, FileBuilder, AttachmentBuilder, MessageFlags, ActionRowBuilder } = require('discord.js');
+const { ContainerBuilder, TextDisplayBuilder, FileBuilder, AttachmentBuilder, MessageFlags, ActionRowBuilder, ThreadMemberFlagsBitField } = require('discord.js');
 const { createPlainTextComponents, createBrandedComponents, componentsV2Flags } = require('../../utils/generateCV2');
 const { hasPermission, permissionReply } = require('../../utils/permissionChecker');
 const settings = require('../../config/settings');
@@ -16,6 +16,11 @@ module.exports = {
         }
 
         const channel = interaction.channel;
+        const openerId = channel.topic?.match(/openerID:(\d{17,19})/);
+        if (!openerId) {
+            return interaction.reply({ content: 'I couldn\'t find the ticket opener.', flags: MessageFlags.Ephemeral });
+        }
+        const opener = await interaction.guild.members.fetch(openerId[1]);
 
         if (!channel.name.startsWith('claimed-')) {
             return interaction.reply('You need to claim this ticket before you can close it.');
@@ -54,6 +59,7 @@ module.exports = {
                     )
                 ]
             await logChannel.send({ files: [html], components: transcriptContainerComponents, flags: componentsV2Flags });
+            await opener.send({ files: [html], components: transcriptContainerComponents, flags: componentsV2Flags });
 
         } catch (err) {
             console.log('error while generating transcript', err);

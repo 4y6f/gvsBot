@@ -19,7 +19,7 @@ module.exports = {
             newTicketChannelMessage = await interaction.guild.channels.create({
                 name: `unclaimed-${interaction.user.username}`,
                 type: ChannelType.GuildText,
-                topic: 'nes-Support ticket',
+                topic: `nes-Support ticket | openerID:${interaction.user.id}`,
                 reason: `Created ticket channel for ${interaction.user.tag}`,
                 parent: settings.tickets.categoryId,
                 rateLimitPerUser: 3,

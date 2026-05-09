@@ -7,21 +7,23 @@ module.exports = {
     name: 'clientReady',
     once: true,
     async execute(client) {
+        const guild = client.guilds.cache.get(settings.guildId) ?? await client.guilds.fetch(settings.guildId).catch(() => null);
+        
         console.log(`[LOG]   logging in as ${client.user.tag}`);
+
+        await sleep(3000);
+        console.log('[LOG]   ready');
+
         await mongo.connect();
+        await sleep(5000)
         client.user.setPresence({
             activities: [
                 {
-                    name: 'the server grow',
+                    name: `Watching over ${guild.memberCount} members.`,
                     type: ActivityType.Watching,
                 }
             ],
             status: "online",
         });
-        await sleep(3000);
-        console.log('[LOG]   ready');
-
-
-        const guild = client.guilds.cache.get(settings.guildId) ?? await client.guilds.fetch(settings.guildId).catch(() => null);
     }
 };
