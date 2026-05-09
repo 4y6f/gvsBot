@@ -25,11 +25,15 @@ const settings = {
         serverOwner: '1477107500296835082',
         directive: '1477731886175617075',
         moderator: '1477730895841595616',
-        employee: '1477190938374963263',
+        employee: '1477190938374963263',    
     },
     channels: {
         moderationLogs: '1477113325467861123',
         feedback: '1500181105029156956',
+    },
+    tickets: {
+        categoryId: '1477110292595998790',
+        ticketLogChannel: '1477114669620527398',
     }
     
 };

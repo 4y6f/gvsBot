@@ -21,6 +21,7 @@ client.commands = {
 
 client.buttons = new Collection();
 client.modals = new Collection();
+client.selects = new Collection();
 
 function loadFiles(dir) {
     const absoluteDir = path.join(__dirname, dir);
@@ -69,6 +70,7 @@ for (const file of loadFiles('buttons')) {
     if (!button?.name) continue;
 
     client.buttons.set(button.name, button);
+    console.log('INDEX: loading ' + button.name + '.')
 }
 
 for (const file of loadFiles('modals')) {
@@ -77,6 +79,14 @@ for (const file of loadFiles('modals')) {
     if (!modal?.name) continue;
 
     client.modals.set(modal.name, modal);
+}
+
+for (const file of loadFiles('selectMenus')) {
+    const selectMenu = require(file);
+
+    if (!selectMenu?.name) continue;
+
+    client.selects.set(selectMenu.name, selectMenu);
 }
 
 client.login(token);

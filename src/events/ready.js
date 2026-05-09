@@ -21,6 +21,7 @@ module.exports = {
         await sleep(3000);
         console.log('[LOG]   ready');
 
+
         const guild = client.guilds.cache.get(settings.guildId) ?? await client.guilds.fetch(settings.guildId).catch(() => null);
     }
 };

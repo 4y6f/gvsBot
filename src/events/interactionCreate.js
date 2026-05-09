@@ -30,16 +30,16 @@ module.exports = {
 
         else if (interaction.isButton()) {
 
-            const [name] = interaction.customId.split(':');
+            const name = interaction.customId;//.split(':');
             const button = client.buttons.get(name);
 
-            if (!button) return;
+            if (!button) return console.log('no button logic found');
 
             try {
                 await button.execute(interaction, client);
             } catch (err) {
-                console.log('there was an error', err);
-
+                console.log('there was an error', err)
+                
                 const reply = {
                     content: 'there was an error while executing this button!',
                     flags: MessageFlags.Ephemeral,
@@ -65,6 +65,30 @@ module.exports = {
 
                 const reply = {
                     content: 'there was an error with this modal',
+                    flags: MessageFlags.Ephemeral,
+                };
+
+                if (interaction.replied || interaction.deferred) {
+                    await interaction.followUp(reply);
+                } else {
+                    await interaction.reply(reply);
+                }
+            }
+        }
+        else if (interaction.isAnySelectMenu()) {
+
+            const value = interaction.values[0];
+
+            const selectMenu = client.selects.get(value);
+            if (!selectMenu) return console.log('select logic not found');
+
+            try { 
+                await selectMenu.execute(interaction);
+            } catch (err) {
+                console.log('there was an error with select', err);
+
+                const reply = {
+                    content: 'there was an error while running this select menu',
                     flags: MessageFlags.Ephemeral,
                 };
 
