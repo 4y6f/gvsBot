@@ -1,5 +1,5 @@
-const discordTranscripts = require('discord-html-transcripts-v2');
-const { MessageFlags } = require('discord.js');
+const { createTranscript, ExportReturnType } = require('discord-transcript-v2');
+const { AttachmentBuilder, MessageFlags } = require('discord.js');
 const { createPlainTextComponents, componentsV2Flags } = require('../../utils/generateCV2');
 const { hasPermission, permissionReply } = require('../../utils/permissionChecker');
 const settings = require('../../config/settings');
@@ -8,7 +8,7 @@ const { sleep } = require('../../utils/sleep');
 module.exports = {
     name: 'ticketclose',
 
-    async execute(interaction) {
+    async execute(interaction, client) {
         const allowedRoles = [settings.roles.directive, settings.roles.moderator];
 
         if (!hasPermission(interaction.member, allowedRoles)) {
@@ -20,27 +20,26 @@ module.exports = {
         if (!channel.name.startsWith('claimed-')) {
             return interaction.reply('You need to claim this ticket before you can close it.');
         }
-
         try {
-            const messages = interaction.channel.messages.get();
-            const channel = interaction.channel();
+            const logChannelID = settings.tickets.ticketLogChannel;
+            const logChannel = await interaction.guild.channels.fetch(logChannelID);
 
-            const attachment = await discordTranscripts.generateFromMessages(messages, channel, {
-                saveImages: true
-            })
-
-            const logChannel = interaction.guild.channels.cache.get(settings.tickets.ticketLogChannel);
-
-            await logChannel.send({
-                files: [attachment],
+            const html = await createTranscript(channel, {
+                returnType: ExportReturnType.Attachment,
+                filename: 'transcript.html',
+                saveImages: true,
+                poweredBy: true,
+                footerText: 'ER:LC Government Systems',
             });
 
+            await logChannel.send({ files: [html] });
         } catch (err) {
             console.log('error while generating transcript', err);
-            return await interaction.reply('I couldn\'t generate a transcript.')
+            return await interaction.reply({ content: 'I couldn\'t generate a transcript.', flags: MessageFlags.Ephemeral })
         }
 
-        const channelDeleteMsg = createPlainTextComponents('Deleting channel in ten seconds...');
+        const channelDeleteMsg = createPlainTextComponents(`This ticket has been closed by ${interaction.member} and will delete in ten seconds...`);
+        await interaction.reply({ flags: componentsV2Flags, components: channelDeleteMsg })
         await sleep(10000);
         await channel.delete();
     }
