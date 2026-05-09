@@ -12,7 +12,7 @@ function hasPermissionHierarchy(member, requiredRoles = []) {
 }
 
 function permissionMessage() {
-    return 'You do not have permission to use this command.';
+    return 'You do not have permission to use this.';
 }
 
 function permissionReply(options = {}) {

@@ -1,6 +1,6 @@
 const { createTranscript, ExportReturnType } = require('discord-transcript-v2');
-const { AttachmentBuilder, MessageFlags } = require('discord.js');
-const { createPlainTextComponents, componentsV2Flags } = require('../../utils/generateCV2');
+const { ContainerBuilder, TextDisplayBuilder, FileBuilder, AttachmentBuilder, MessageFlags, ActionRowBuilder } = require('discord.js');
+const { createPlainTextComponents, createBrandedComponents, componentsV2Flags } = require('../../utils/generateCV2');
 const { hasPermission, permissionReply } = require('../../utils/permissionChecker');
 const settings = require('../../config/settings');
 const { sleep } = require('../../utils/sleep');
@@ -32,7 +32,28 @@ module.exports = {
                 footerText: 'ER:LC Government Systems',
             });
 
-            await logChannel.send({ files: [html] });
+            const transcriptContainerComponents = [
+                new ContainerBuilder()
+                    .addTextDisplayComponents(
+                        new TextDisplayBuilder()
+                            .setContent(
+                                [
+                                    '### Ticket Closed',
+                                    'You can download the transcript from this ticket using the file attached below.'
+                                ].join('\n')
+                        )
+                    )
+                    .addFileComponents(
+                        new FileBuilder()
+                            .setURL('attachment://transcript.html')
+                    )
+                    .addTextDisplayComponents(
+                        new TextDisplayBuilder()
+                            .setContent('Feel free to re-open another ticket if you stil require assistance.')
+                    )
+                ]
+            await logChannel.send({ files: [html], components: transcriptContainerComponents, flags: componentsV2Flags });
+
         } catch (err) {
             console.log('error while generating transcript', err);
             return await interaction.reply({ content: 'I couldn\'t generate a transcript.', flags: MessageFlags.Ephemeral })

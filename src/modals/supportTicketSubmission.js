@@ -2,6 +2,7 @@ const { createBrandedComponents, createPlainTextComponents, componentsV2Ephemera
 const { hasPermission, permissionReply } = require('../utils/permissionChecker');
 const { ActionRowBuilder, ActionRow, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ChannelType, PermissionFlagsBits } = require('discord.js');
 const settings = require('../config/settings');
+const { IntegrationApplication } = require('discord.js');
 
 module.exports = {
     name: 'supportticketreasonmodal',
@@ -57,6 +58,9 @@ module.exports = {
                     }
                 ]
             });
+        
+        const componentsGoToTicket = createPlainTextComponents(`You can view your ticket here: <#${newTicketChannelMessage.id}>`)
+        await interaction.editReply({ flags: componentsV2Flags, components: componentsGoToTicket })
         } catch (err) {
             console.log('[ERROR]   error creating ticket channel', err);
         }
@@ -89,8 +93,11 @@ module.exports = {
         const ticketActionRow = new ActionRowBuilder().addComponents(ticketSelectMenu);
 
         const components2 = createBrandedComponents({
-            title: 'Ticket Panel',
-            description: 'Manage the ticket with the dropdown below.',
+            title: 'Ticket Opened',
+            description: [
+                `> A ticket has been opened by ${interaction.member}.`,
+                `> Ticket creation reason: \`${reasonInput}\``,
+                `> Is this a report? \`${reportInput}\``].join('\n'),
             actionRows: [ticketActionRow]
         });
 
