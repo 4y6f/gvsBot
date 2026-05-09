@@ -17,8 +17,8 @@ module.exports = {
             }
 
             try {
-                await message.channel.bulkDelete(deleteCount);
-                return message.reply(`successfully deleted ${deleteCount} messages`).then(msg => {
+                await message.channel.bulkDelete(deleteCount + 1);
+                return message.channel.send(`successfully deleted ${deleteCount} messages`).then(msg => {
                     setTimeout(() => msg.delete(), 5000);
                 });
             } catch (err) {
