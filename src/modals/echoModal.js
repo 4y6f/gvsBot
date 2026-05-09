@@ -1,5 +1,5 @@
-const { EmbedBuilder } = require('discord.js');
 const settings = require('../config/settings');
+const { createPlainTextComponents, componentsV2Flags } = require('../utils/generateCV2');
 
 module.exports = {
     name: 'echoUserInput',
@@ -8,11 +8,7 @@ module.exports = {
 
         const userInput = interaction.fields.getTextInputValue('echoInput');
 
-        const echoEmbed = new EmbedBuilder()
-            .setColor(settings.embedColor)
-            .setDescription(userInput)
-            .setImage(settings.footerImages.general);
-
-            await interaction.reply({ embeds: [echoEmbed] });
+            const echoContainer = createPlainTextComponents(userInput)
+            await interaction.reply({ flags: componentsV2Flags, components: echoContainer});
     }
 }
