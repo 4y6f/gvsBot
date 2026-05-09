@@ -34,6 +34,11 @@ const settings = {
     tickets: {
         categoryId: '1477110292595998790',
         ticketLogChannel: '1477114669620527398',
+    },
+    sessions: {
+        servername: 'Washington DC Roleplay I Government Systems I VC',
+        servercode: 'ERLCGOV',
+        serverowner: 'keremiron11',
     }
     
 };

@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, MessageFlags } = require('discord.js');
 const settings = require('../../config/settings');
+const { createPlainTextComponents, componentsV2Flags } = require('../../utils/generateCV2');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -17,12 +18,8 @@ module.exports = {
         const subcommand = interaction.options.getSubcommand();
 
         if (subcommand === 'ping') {
-            const pingEmbed = new EmbedBuilder()
-                .setTitle('Pong!')
-                .setDescription(`\`\`\`My latency is ${interaction.client.ws.ping}ms\`\`\``)
-                .setColor(settings.embedColor);
-
-            await interaction.editReply({ embeds: [pingEmbed] });
+            const pingReply = createPlainTextComponents(`Pong! My latency is ${interaction.client.ws.ping}ms.`)
+            await interaction.editReply({ components: pingReply, flags: componentsV2Flags })
         } else {
             await interaction.editReply("I couldn't find the subcommand you tried to use. Try again?")
         }

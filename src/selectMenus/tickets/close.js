@@ -39,6 +39,7 @@ module.exports = {
                             .setContent(
                                 [
                                     '### Ticket Closed',
+                                    `This ticket was closed by ${interaction.member}.`,
                                     'You can download the transcript from this ticket using the file attached below.'
                                 ].join('\n')
                         )

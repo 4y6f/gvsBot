@@ -1,4 +1,4 @@
-const { MediaGalleryComponent, MediaGalleryItemBuilder, SelectMenuOptionBuilder, StringSelectMenuBuilder, StringSelectMenuComponent, StringSelectMenuOptionBuilder, MessageFlags, ContainerBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, SectionBuilder, TextDisplayBuilder, MediaGalleryBuilder, SeparatorBuilder, SeparatorSpacingSize } = require('discord.js');
+const { MediaGalleryComponent, MediaGalleryItemBuilder, StringSelectMenuBuilder, StringSelectMenuComponent, StringSelectMenuOptionBuilder, MessageFlags, ContainerBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, SectionBuilder, TextDisplayBuilder, MediaGalleryBuilder, SeparatorBuilder, SeparatorSpacingSize } = require('discord.js');
 const { hasPermission, permissionReply } = require('../../utils/permissionChecker');
 const settings = require('../../config/settings');
 
@@ -39,12 +39,12 @@ const components  = [
                     new StringSelectMenuBuilder()
                         .setCustomId('dashboardstringselect')
                         .addOptions(
-                            new SelectMenuOptionBuilder()
+                            new StringSelectMenuOptionBuilder()
                                 .setLabel('server information')
                                 .setValue('dashboardselectwhoweare')
                                 .setDescription('learn about us and how we were created.'),
 
-                            new SelectMenuOptionBuilder()
+                            new StringSelectMenuOptionBuilder()
                                 .setLabel('server rules')
                                 .setValue('dashboardselectrules')
                                 .setDescription('learn our server\'s rules to avoid moderation.'),

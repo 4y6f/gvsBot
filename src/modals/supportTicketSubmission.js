@@ -59,7 +59,7 @@ module.exports = {
                 ]
             });
         
-        const componentsGoToTicket = createPlainTextComponents(`You can view your ticket here: <#${newTicketChannelMessage.id}>`)
+        const componentsGoToTicket = createPlainTextComponents(`Your ticket was created! You can view it here: <#${newTicketChannelMessage.id}>`)
         await interaction.editReply({ flags: componentsV2Flags, components: componentsGoToTicket })
         } catch (err) {
             console.log('[ERROR]   error creating ticket channel', err);

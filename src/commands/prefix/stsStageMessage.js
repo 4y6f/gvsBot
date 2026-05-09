@@ -17,6 +17,7 @@ const settings = require('../../config/settings');
 
 module.exports = {
     name: 'playsts',
+    aliases: ['sts', 'play-sts-msg', 'play-sts', 'sts-play'],
 
     async execute(message) {
         try {
