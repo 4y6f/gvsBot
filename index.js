@@ -10,8 +10,6 @@ let discordClient;
 
         const deployCommands = require('./src/registerCommands');
         await deployCommands();
-
-        require('./src/index.js');
     } catch (err) {
         console.error('[ERROR]   error while starting:', err);
     }

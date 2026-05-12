@@ -23,6 +23,8 @@ client.buttons = new Collection();
 client.modals = new Collection();
 client.selects = new Collection();
 
+const sessionVoters = [];
+
 function loadFiles(dir) {
     const absoluteDir = path.join(__dirname, dir);
     const results = [];
