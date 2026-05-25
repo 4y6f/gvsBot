@@ -30,7 +30,7 @@ module.exports = {
 
         else if (interaction.isButton()) {
 
-            const name = interaction.customId;//.split(':');
+            const [name] = interaction.customId.split(':');
             const button = client.buttons.get(name);
 
             if (!button) return console.log('no button logic found');
@@ -77,7 +77,7 @@ module.exports = {
         }
         else if (interaction.isAnySelectMenu()) {
 
-            const value = interaction.values[0];
+            const value = interaction.customId.split(':');
 
             const selectMenu = client.selects.get(value);
             if (!selectMenu) return console.log('select logic not found');

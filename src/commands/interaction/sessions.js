@@ -30,8 +30,9 @@ module.exports = {
                 option
                 .setName('votes')
                 .setDescription('number of votes required')
-                .setMinValue(3)
+                .setMinValue(1)
                 .setMaxValue(10)
+                .setRequired(true)
             )
         ),
 
@@ -115,14 +116,15 @@ module.exports = {
                 }
             }
             else if (subcommand === 'vote') {
-                const voteBtn = new ButtonBuilder().setLabel('Vote').setCustomId('sessionvotebtn').setStyle(ButtonStyle.Secondary);
-                const votersBtn = new ButtonBuilder().setLabel('Voters: /0').setCustomId('sessionvotersbtn').setStyle(ButtonStyle.Secondary).setDisabled(true);
+                const requiredVotes = interaction.options.getInteger('votes') || 5;
+                const voteBtn = new ButtonBuilder().setLabel('Vote').setCustomId(`sessionvotebtn:${requiredVotes}`).setStyle(ButtonStyle.Secondary);
+                const votersBtn = new ButtonBuilder().setLabel('Voters: 0').setCustomId('sessionvotersbtn').setStyle(ButtonStyle.Secondary).setDisabled(true);
 
                 const voteBtnActionRow = new ActionRowBuilder().addComponents(voteBtn, votersBtn);
 
                 const voteContainer = createBrandedComponents({
                     title: 'Session Vote',
-                    description: `${interaction.member} has started a session vote. If you would like to start a session, vote using the button below.`,
+                    description: `A staff member has started a session vote. If you would like to start a session, vote using the button below.`,
                     actionRows: [voteBtnActionRow],
                 });
                 const replyMsg = createPlainTextComponents('Session vote started successfuly.');

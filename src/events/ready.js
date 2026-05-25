@@ -2,6 +2,7 @@ const settings = require('../config/settings');
 const { ActivityType } = require('discord.js');
 const mongo = require('../database/connect');
 const { sleep } = require('../utils/sleep');
+const sessionTask = require('../tasks/erlcInfo');
 
 module.exports = {
     name: 'clientReady',
@@ -15,7 +16,9 @@ module.exports = {
         console.log('[LOG]   ready');
 
         await mongo.connect();
-        await sleep(5000)
+        await sleep(500);
+        await sessionTask(client);
+        await sleep(500);
         client.user.setPresence({
             activities: [
                 {

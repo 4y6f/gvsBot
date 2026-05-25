@@ -39,6 +39,7 @@ const settings = {
         servername: 'Washington DC Roleplay I Government Systems I VC',
         servercode: 'ERLCGOV',
         serverowner: 'keremiron11',
+        sessionrole: '1477135282636722196',
     }
     
 };
